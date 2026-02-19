@@ -3,250 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William Agents Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
-            min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
-            color: #c9d1d9;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #58a6ff, #a371f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: #8b949e;
-            margin-bottom: 50px;
-            font-size: 1.1rem;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .agent-card {
-            background: rgba(22, 27, 34, 0.8);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 28px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .agent-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--glow-color), transparent);
-            opacity: 0.6;
-        }
-
-        .agent-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--glow-color);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-color-dim);
-        }
-
-        .agent-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .agent-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--glow-color-dim), transparent);
-            border: 2px solid var(--glow-color);
-        }
-
-        .agent-info h2 {
-            font-size: 1.3rem;
-            color: #f0f6fc;
-            margin-bottom: 4px;
-        }
-
-        .agent-role {
-            font-size: 0.9rem;
-            color: #8b949e;
-        }
-
-        .status-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid #21262d;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--status-color);
-            box-shadow: 0 0 8px var(--status-color), 0 0 16px var(--status-color-dim);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        .status-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--status-color);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-badge {
-            margin-left: auto;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            background: var(--status-bg);
-            color: var(--status-color);
-            border: 1px solid var(--status-color-dim);
-        }
-
-        /* Status Themes */
-        .status-active {
-            --status-color: #3fb950;
-            --status-color-dim: rgba(63, 185, 80, 0.3);
-            --status-bg: rgba(63, 185, 80, 0.1);
-            --glow-color: #3fb950;
-            --glow-color-dim: rgba(63, 185, 80, 0.2);
-        }
-
-        .status-busy {
-            --status-color: #d29922;
-            --status-color-dim: rgba(210, 153, 34, 0.3);
-            --status-bg: rgba(210, 153, 34, 0.1);
-            --glow-color: #d29922;
-            --glow-color-dim: rgba(210, 153, 34, 0.2);
-        }
-
-        .status-offline {
-            --status-color: #8b949e;
-            --status-color-dim: rgba(139, 148, 158, 0.3);
-            --status-bg: rgba(139, 148, 158, 0.1);
-            --glow-color: #8b949e;
-            --glow-color-dim: rgba(139, 148, 158, 0.2);
-        }
-
-        footer {
-            margin-top: 60px;
-            color: #484f58;
-            font-size: 0.85rem;
-        }
-    </style>
+    <title>Agent Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>🤖 William Agents</h1>
-    <p class="subtitle">Multi-Agent System Dashboard</p>
+    <div class="container">
+        <header>
+            <h1>🤖 Agent Dashboard</h1>
+            <p class="subtitle">Multi-Agent System Monitoring</p>
+        </header>
 
-    <div class="dashboard">
-        <!-- William-Dev -->
-        <div class="agent-card status-active">
-            <div class="agent-header">
-                <div class="agent-avatar">💻</div>
-                <div class="agent-info">
-                    <h2>William-Dev</h2>
-                    <p class="agent-role">Development & Coding</p>
+        <div class="cards-grid">
+            <!-- Agent Card 1: Active -->
+            <div class="agent-card">
+                <div class="status-indicator active"></div>
+                <div class="card-content">
+                    <div class="agent-header">
+                        <div class="agent-icon">🎲</div>
+                        <div class="agent-info">
+                            <h3>William-Trading</h3>
+                            <span class="role">Trading & Finance</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-badge active">● Active</span>
+                        <span class="uptime">99.9% uptime</span>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">1,234</span>
+                            <span class="metric-label">Trades</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">+12.5%</span>
+                            <span class="metric-label">Profit</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="status-container">
-                <div class="status-indicator"></div>
-                <span class="status-text">Active</span>
-                <span class="status-badge">Online</span>
+
+            <!-- Agent Card 2: Active -->
+            <div class="agent-card">
+                <div class="status-indicator active"></div>
+                <div class="card-content">
+                    <div class="agent-header">
+                        <div class="agent-icon">💻</div>
+                        <div class="agent-info">
+                            <h3>William-Dev</h3>
+                            <span class="role">Development</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-badge active">● Active</span>
+                        <span class="uptime">100% uptime</span>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">47</span>
+                            <span class="metric-label">Commits</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">23</span>
+                            <span class="metric-label">Deploys</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Card 3: Warning -->
+            <div class="agent-card">
+                <div class="status-indicator warning"></div>
+                <div class="card-content">
+                    <div class="agent-header">
+                        <div class="agent-icon">📊</div>
+                        <div class="agent-info">
+                            <h3>William-Data</h3>
+                            <span class="role">Data Analysis</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-badge warning">● Warning</span>
+                        <span class="uptime">High Load</span>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">89%</span>
+                            <span class="metric-label">CPU</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">2.1GB</span>
+                            <span class="metric-label">RAM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Card 4: Offline -->
+            <div class="agent-card">
+                <div class="status-indicator offline"></div>
+                <div class="card-content">
+                    <div class="agent-header">
+                        <div class="agent-icon">📝</div>
+                        <div class="agent-info">
+                            <h3>William-Docs</h3>
+                            <span class="role">Documentation</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-badge offline">● Offline</span>
+                        <span class="uptime">--</span>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">--</span>
+                            <span class="metric-label">Tasks</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">--</span>
+                            <span class="metric-label">Docs</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- William-Trading -->
-        <div class="agent-card status-active">
-            <div class="agent-header">
-                <div class="agent-avatar">🎲</div>
-                <div class="agent-info">
-                    <h2>William-Trading</h2>
-                    <p class="agent-role">Trading & Finance</p>
-                </div>
-            </div>
-            <div class="status-container">
-                <div class="status-indicator"></div>
-                <span class="status-text">Active</span>
-                <span class="status-badge">Online</span>
-            </div>
-        </div>
-
-        <!-- William-Data -->
-        <div class="agent-card status-active">
-            <div class="agent-header">
-                <div class="agent-avatar">📊</div>
-                <div class="agent-info">
-                    <h2>William-Data</h2>
-                    <p class="agent-role">Data & Research</p>
-                </div>
-            </div>
-            <div class="status-container">
-                <div class="status-indicator"></div>
-                <span class="status-text">Active</span>
-                <span class="status-badge">Online</span>
-            </div>
-        </div>
-
-        <!-- William-Docs -->
-        <div class="agent-card status-busy">
-            <div class="agent-header">
-                <div class="agent-avatar">📝</div>
-                <div class="agent-info">
-                    <h2>William-Docs</h2>
-                    <p class="agent-role">Documentation</p>
-                </div>
-            </div>
-            <div class="status-container">
-                <div class="status-indicator"></div>
-                <span class="status-text">Busy</span>
-                <span class="status-badge">Working</span>
-            </div>
-        </div>
+        <footer>
+            <p>Last updated: <span id="last-updated"></span></p>
+        </footer>
     </div>
 
-    <footer>
-        <p>William Multi-Agent System • Built with ❤️</p>
-    </footer>
+    <script src="app.js"></script>
 </body>
 </html>
