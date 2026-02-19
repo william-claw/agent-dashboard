@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Dashboard</title>
+    <title>William Agents Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -12,51 +12,47 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
             min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: #fff;
+            padding: 60px 20px;
+            color: #c9d1d9;
         }
 
         h1 {
             font-size: 2.5rem;
-            font-weight: 300;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #58a6ff, #a371f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .subtitle {
-            color: #8892b0;
+            color: #8b949e;
             margin-bottom: 50px;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 24px;
             width: 100%;
             max-width: 1200px;
         }
 
         .agent-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
         .agent-card::before {
@@ -65,160 +61,192 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            padding: 2px;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--glow-color), transparent);
+            opacity: 0.6;
         }
 
         .agent-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            border-color: var(--glow-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-color-dim);
         }
 
-        .agent-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
-        .agent-name {
+        .agent-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--glow-color-dim), transparent);
+            border: 2px solid var(--glow-color);
+        }
+
+        .agent-info h2 {
             font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            color: #f0f6fc;
+            margin-bottom: 4px;
         }
 
         .agent-role {
             font-size: 0.9rem;
-            color: #8892b0;
-            margin-bottom: 20px;
+            color: #8b949e;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #21262d;
         }
 
         .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
+            background: var(--status-color);
+            box-shadow: 0 0 8px var(--status-color), 0 0 16px var(--status-color-dim);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
         }
 
-        /* Active status - Green */
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--status-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            background: var(--status-bg);
+            color: var(--status-color);
+            border: 1px solid var(--status-color-dim);
+        }
+
+        /* Status Themes */
         .status-active {
-            box-shadow: 0 0 60px rgba(34, 197, 94, 0.4), inset 0 0 60px rgba(34, 197, 94, 0.1);
-        }
-        .status-active::before {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(21, 128, 61, 0.3));
-        }
-        .status-active .status-dot {
-            background-color: #22c55e;
-            box-shadow: 0 0 20px #22c55e;
-        }
-        .status-active .status-text {
-            color: #22c55e;
+            --status-color: #3fb950;
+            --status-color-dim: rgba(63, 185, 80, 0.3);
+            --status-bg: rgba(63, 185, 80, 0.1);
+            --glow-color: #3fb950;
+            --glow-color-dim: rgba(63, 185, 80, 0.2);
         }
 
-        /* Working status - Orange */
-        .status-working {
-            box-shadow: 0 0 60px rgba(249, 115, 22, 0.4), inset 0 0 60px rgba(249, 115, 22, 0.1);
-        }
-        .status-working::before {
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.5), rgba(194, 65, 12, 0.3));
-        }
-        .status-working .status-dot {
-            background-color: #f97316;
-            box-shadow: 0 0 20px #f97316;
-        }
-        .status-working .status-text {
-            color: #f97316;
+        .status-busy {
+            --status-color: #d29922;
+            --status-color-dim: rgba(210, 153, 34, 0.3);
+            --status-bg: rgba(210, 153, 34, 0.1);
+            --glow-color: #d29922;
+            --glow-color-dim: rgba(210, 153, 34, 0.2);
         }
 
-        /* Offline status - Red */
         .status-offline {
-            box-shadow: 0 0 60px rgba(239, 68, 68, 0.4), inset 0 0 60px rgba(239, 68, 68, 0.1);
-        }
-        .status-offline::before {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(153, 27, 27, 0.3));
-        }
-        .status-offline .status-dot {
-            background-color: #ef4444;
-            box-shadow: 0 0 20px #ef4444;
-        }
-        .status-offline .status-text {
-            color: #ef4444;
+            --status-color: #8b949e;
+            --status-color-dim: rgba(139, 148, 158, 0.3);
+            --status-bg: rgba(139, 148, 158, 0.1);
+            --glow-color: #8b949e;
+            --glow-color-dim: rgba(139, 148, 158, 0.2);
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
+        footer {
+            margin-top: 60px;
+            color: #484f58;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-    <h1>Agent Dashboard</h1>
-    <p class="subtitle">Multi-Agent System Status Monitor</p>
+    <h1>🤖 William Agents</h1>
+    <p class="subtitle">Multi-Agent System Dashboard</p>
 
     <div class="dashboard">
-        <!-- William-Trading -->
+        <!-- William-Dev -->
         <div class="agent-card status-active">
-            <div class="agent-icon">🎲</div>
-            <div class="agent-name">William-Trading</div>
-            <div class="agent-role">Trading & Analytics</div>
-            <div class="status-indicator">
-                <span class="status-dot"></span>
+            <div class="agent-header">
+                <div class="agent-avatar">💻</div>
+                <div class="agent-info">
+                    <h2>William-Dev</h2>
+                    <p class="agent-role">Development & Coding</p>
+                </div>
+            </div>
+            <div class="status-container">
+                <div class="status-indicator"></div>
                 <span class="status-text">Active</span>
+                <span class="status-badge">Online</span>
             </div>
         </div>
 
-        <!-- William-Dev -->
+        <!-- William-Trading -->
         <div class="agent-card status-active">
-            <div class="agent-icon">💻</div>
-            <div class="agent-name">William-Dev</div>
-            <div class="agent-role">Development & Apps</div>
-            <div class="status-indicator">
-                <span class="status-dot"></span>
-                <span class="statustext">Active</span>
+            <div class="agent-header">
+                <div class="agent-avatar">🎲</div>
+                <div class="agent-info">
+                    <h2>William-Trading</h2>
+                    <p class="agent-role">Trading & Finance</p>
+                </div>
+            </div>
+            <div class="status-container">
+                <div class="status-indicator"></div>
+                <span class="status-text">Active</span>
+                <span class="status-badge">Online</span>
             </div>
         </div>
 
         <!-- William-Data -->
-        <div class="agent-card status-working">
-            <div class="agent-icon">📊</div>
-            <div class="agent-name">William-Data</div>
-            <div class="agent-role">Data & Research</div>
-            <div class="status-indicator">
-                <span class="status-dot"></span>
-                <span class="status-text">Working</span>
+        <div class="agent-card status-active">
+            <div class="agent-header">
+                <div class="agent-avatar">📊</div>
+                <div class="agent-info">
+                    <h2>William-Data</h2>
+                    <p class="agent-role">Data & Research</p>
+                </div>
+            </div>
+            <div class="status-container">
+                <div class="status-indicator"></div>
+                <span class="status-text">Active</span>
+                <span class="status-badge">Online</span>
             </div>
         </div>
 
         <!-- William-Docs -->
-        <div class="agent-card status-offline">
-            <div class="agent-icon">📝</div>
-            <div class="agent-name">William-Docs</div>
-            <div class="agent-role">Documentation & Memory</div>
-            <div class="status-indicator">
-                <span class="status-dot"></span>
-                <span class="status-text">Offline</span>
+        <div class="agent-card status-busy">
+            <div class="agent-header">
+                <div class="agent-avatar">📝</div>
+                <div class="agent-info">
+                    <h2>William-Docs</h2>
+                    <p class="agent-role">Documentation</p>
+                </div>
+            </div>
+            <div class="status-container">
+                <div class="status-indicator"></div>
+                <span class="status-text">Busy</span>
+                <span class="status-badge">Working</span>
             </div>
         </div>
     </div>
+
+    <footer>
+        <p>William Multi-Agent System • Built with ❤️</p>
+    </footer>
 </body>
 </html>

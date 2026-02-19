@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.card h2 {
+    color: #e2e8f0;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status.active .dot {
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+}
+
+.status.creating .dot {
+    background: #eab308;
+    box-shadow: 0 0 10px #eab308, 0 0 20px #eab308;
+    animation: pulse 1.5s infinite, spin 2s linear infinite;
+}
+
+.status.active .label {
+    color: #86efac;
+}
+
+.status.creating .label {
+    color: #fde047;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
