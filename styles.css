@@ -1,59 +1,55 @@
+/* Dark Mode Agent Dashboard Styles */
+
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: #1a1a26;
+    --bg-card-hover: #222233;
+    --text-primary: #e8e8ec;
+    --text-secondary: #8e8e9c;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --glow-active: #22c55e;
+    --glow-idle: #eab308;
+    --glow-offline: #ef4444;
+    --border-color: #2a2a3a;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #12121a;
-    --bg-card: #1a1a25;
-    --bg-card-hover: #222230;
-    
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0b0;
-    --text-muted: #6b6b7b;
-    
-    --active-color: #10b981;
-    --active-glow: rgba(16, 185, 129, 0.4);
-    --warning-color: #f59e0b;
-    --warning-glow: rgba(245, 158, 11, 0.4);
-    --offline-color: #ef4444;
-    --offline-glow: rgba(239, 68, 68, 0.4);
-    
-    --border-color: #2a2a3a;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
 body {
-    font-family: var(--font-family);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg-primary);
-    background: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0d0d15 100%);
-    min-height: 100vh;
     color: var(--text-primary);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
 }
 
-.container {
-    width: 100%;
+.dashboard {
     max-width: 1200px;
+    width: 100%;
 }
 
 /* Header */
-header {
+.header {
     text-align: center;
     margin-bottom: 3rem;
 }
 
-header h1 {
+.header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 0%, #a0a0b0 100%);
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -66,8 +62,8 @@ header h1 {
     font-weight: 400;
 }
 
-/* Cards Grid */
-.cards-grid {
+/* Agents Grid */
+.agents-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
@@ -77,18 +73,35 @@ header h1 {
 /* Agent Card */
 .agent-card {
     background: var(--bg-card);
-    border-radius: 16px;
     border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px var(--shadow-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .agent-card:hover {
-    transform: translateY(-4px);
     background: var(--bg-card-hover);
-    box-shadow: 0 8px 30px var(--shadow-color);
+    border-color: var(--accent-blue);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.agent-card:hover::before {
+    opacity: 1;
 }
 
 /* Status Indicator with Glow */
@@ -99,187 +112,129 @@ header h1 {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
 }
 
-.status-indicator.active {
-    background: var(--active-color);
+.status-active {
+    background: var(--glow-active);
     box-shadow: 
-        0 0 10px var(--active-glow),
-        0 0 20px var(--active-glow),
-        0 0 30px var(--active-glow);
+        0 0 10px var(--glow-active),
+        0 0 20px var(--glow-active),
+        0 0 30px var(--glow-active);
+    animation: pulse-green 2s infinite;
 }
 
-.status-indicator.warning {
-    background: var(--warning-color);
+.status-idle {
+    background: var(--glow-idle);
     box-shadow: 
-        0 0 10px var(--warning-glow),
-        0 0 20px var(--warning-glow),
-        0 0 30px var(--warning-glow);
-    animation: pulse-warning 1.5s ease-in-out infinite;
+        0 0 10px var(--glow-idle),
+        0 0 20px var(--glow-idle);
 }
 
-.status-indicator.offline {
-    background: var(--offline-color);
+.status-offline {
+    background: var(--glow-offline);
     box-shadow: 
-        0 0 10px var(--offline-glow),
-        0 0 20px var(--offline-glow);
-    animation: none;
-    opacity: 0.6;
+        0 0 10px var(--glow-offline),
+        0 0 20px var(--glow-offline);
 }
 
-@keyframes pulse {
+@keyframes pulse-green {
     0%, 100% {
         opacity: 1;
-        transform: scale(1);
+        box-shadow: 
+            0 0 10px var(--glow-active),
+            0 0 20px var(--glow-active),
+            0 0 30px var(--glow-active);
     }
     50% {
-        opacity: 0.7;
-        transform: scale(1.1);
+        opacity: 0.8;
+        box-shadow: 
+            0 0 5px var(--glow-active),
+            0 0 10px var(--glow-active),
+            0 0 15px var(--glow-active);
     }
 }
 
-@keyframes pulse-warning {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.15);
-    }
-}
-
-.card-content {
-    padding: 1.5rem;
-}
-
-/* Agent Header */
-.agent-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-}
-
+/* Agent Icon */
 .agent-icon {
-    width: 48px;
-    height: 48px;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    border: 1px solid var(--border-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
 }
 
-.agent-info h3 {
-    font-size: 1.125rem;
+/* Agent Name */
+.agent-name {
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
     margin-bottom: 0.25rem;
+    color: var(--text-primary);
 }
 
-.agent-info .role {
+/* Agent Role */
+.agent-role {
+    display: inline-block;
     font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+}
+
+/* Agent Status Text */
+.agent-status {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.status-text-active {
+    color: var(--glow-active);
+}
+
+.status-text-idle {
+    color: var(--glow-idle);
+}
+
+.status-text-offline {
+    color: var(--glow-offline);
+}
+
+/* Agent Description */
+.agent-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: var(--text-secondary);
 }
 
-/* Status Row */
-.status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.status-badge {
-    font-size: 0.875rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.status-badge.active {
-    color: var(--active-color);
-}
-
-.status-badge.warning {
-    color: var(--warning-color);
-}
-
-.status-badge.offline {
-    color: var(--offline-color);
-}
-
-.uptime {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-/* Metrics */
-.metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.metric {
-    background: var(--bg-secondary);
-    border-radius: 10px;
-    padding: 0.875rem;
-    text-align: center;
-    border: 1px solid var(--border-color);
-}
-
-.metric-value {
-    display: block;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.metric-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
 /* Footer */
-footer {
+.footer {
     text-align: center;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: 0.875rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    header h1 {
+    .header h1 {
         font-size: 2rem;
     }
     
-    .cards-grid {
+    .agents-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .agent-card {
+        padding: 1.5rem;
     }
 }
 
-/* Subtle background animation */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.03) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.75rem;
+    }
 }

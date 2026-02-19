@@ -4,135 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
+    <div class="dashboard">
+        <header class="header">
             <h1>🤖 Agent Dashboard</h1>
-            <p class="subtitle">Multi-Agent System Monitoring</p>
+            <p class="subtitle">Multi-Agent System Overview</p>
         </header>
 
-        <div class="cards-grid">
-            <!-- Agent Card 1: Active -->
+        <div class="agents-grid">
+            <!-- Trading Agent -->
             <div class="agent-card">
-                <div class="status-indicator active"></div>
-                <div class="card-content">
-                    <div class="agent-header">
-                        <div class="agent-icon">🎲</div>
-                        <div class="agent-info">
-                            <h3>William-Trading</h3>
-                            <span class="role">Trading & Finance</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-badge active">● Active</span>
-                        <span class="uptime">99.9% uptime</span>
-                    </div>
-                    <div class="metrics">
-                        <div class="metric">
-                            <span class="metric-value">1,234</span>
-                            <span class="metric-label">Trades</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">+12.5%</span>
-                            <span class="metric-label">Profit</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="status-indicator status-active"></div>
+                <div class="agent-icon">🎲</div>
+                <h2 class="agent-name">William-Trading</h2>
+                <span class="agent-role">Trading & Finance</span>
+                <span class="agent-status status-text-active">🟢 Active</span>
+                <p class="agent-desc">Paper trading on Polymarket, portfolio analysis, investment strategies, and performance tracking.</p>
             </div>
 
-            <!-- Agent Card 2: Active -->
+            <!-- Dev Agent -->
             <div class="agent-card">
-                <div class="status-indicator active"></div>
-                <div class="card-content">
-                    <div class="agent-header">
-                        <div class="agent-icon">💻</div>
-                        <div class="agent-info">
-                            <h3>William-Dev</h3>
-                            <span class="role">Development</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-badge active">● Active</span>
-                        <span class="uptime">100% uptime</span>
-                    </div>
-                    <div class="metrics">
-                        <div class="metric">
-                            <span class="metric-value">47</span>
-                            <span class="metric-label">Commits</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">23</span>
-                            <span class="metric-label">Deploys</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="status-indicator status-active"></div>
+                <div class="agent-icon">💻</div>
+                <h2 class="agent-name">William-Dev</h2>
+                <span class="agent-role">Development</span>
+                <span class="agent-status status-text-active">🟢 Active</span>
+                <p class="agent-desc">Web development, feature implementation, app building, and code maintenance across all projects.</p>
             </div>
 
-            <!-- Agent Card 3: Warning -->
+            <!-- Data Agent -->
             <div class="agent-card">
-                <div class="status-indicator warning"></div>
-                <div class="card-content">
-                    <div class="agent-header">
-                        <div class="agent-icon">📊</div>
-                        <div class="agent-info">
-                            <h3>William-Data</h3>
-                            <span class="role">Data Analysis</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-badge warning">● Warning</span>
-                        <span class="uptime">High Load</span>
-                    </div>
-                    <div class="metrics">
-                        <div class="metric">
-                            <span class="metric-value">89%</span>
-                            <span class="metric-label">CPU</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">2.1GB</span>
-                            <span class="metric-label">RAM</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="status-indicator status-active"></div>
+                <div class="agent-icon">📊</div>
+                <h2 class="agent-name">William-Data</h2>
+                <span class="agent-role">Data & Research</span>
+                <span class="agent-status status-text-active">🟢 Active</span>
+                <p class="agent-desc">Web scraping, data analysis, information research, and automated report generation.</p>
             </div>
 
-            <!-- Agent Card 4: Offline -->
+            <!-- Docs Agent -->
             <div class="agent-card">
-                <div class="status-indicator offline"></div>
-                <div class="card-content">
-                    <div class="agent-header">
-                        <div class="agent-icon">📝</div>
-                        <div class="agent-info">
-                            <h3>William-Docs</h3>
-                            <span class="role">Documentation</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-badge offline">● Offline</span>
-                        <span class="uptime">--</span>
-                    </div>
-                    <div class="metrics">
-                        <div class="metric">
-                            <span class="metric-value">--</span>
-                            <span class="metric-label">Tasks</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">--</span>
-                            <span class="metric-label">Docs</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="status-indicator status-idle"></div>
+                <div class="agent-icon">📝</div>
+                <h2 class="agent-name">William-Docs</h2>
+                <span class="agent-role">Documentation</span>
+                <span class="agent-status status-text-idle">🟡 Idle</span>
+                <p class="agent-desc">File organization, MEMORY.md updates, conversation synthesis, and project archiving.</p>
             </div>
         </div>
 
-        <footer>
+        <footer class="footer">
             <p>Last updated: <span id="last-updated"></span></p>
         </footer>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        document.getElementById('last-updated').textContent = new Date().toLocaleString('en-US', {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+        });
+    </script>
 </body>
 </html>
