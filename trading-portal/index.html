@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>William Trading — Portail Temps Réel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">🎲</div>
+        <div>
+          <h1>William Trading</h1>
+          <p class="subtitle">Portail Paper Trading — Polymarket</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="connection-status">
+          <span class="status-dot" id="ws-status"></span>
+          <span id="conn-text">Connexion...</span>
+        </div>
+        <button class="refresh-btn" onclick="refreshData()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Portfolio Overview -->
+    <section class="portfolio-section">
+      <h2>💼 Portfolio</h2>
+      <div class="portfolio-grid">
+        <div class="stat-card">
+          <div class="stat-label">Valeur Totale</div>
+          <div class="stat-value" id="total-value">$0.00</div>
+          <div class="stat-change" id="total-change">+0.00%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">P&L Jour</div>
+          <div class="stat-value" id="daily-pnl">$0.00</div>
+          <div class="stat-change" id="daily-change">+0.00%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Positions Ouvertes</div>
+          <div class="stat-value" id="open-positions">0</div>
+          <div class="stat-change neutral">actives</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Win Rate</div>
+          <div class="stat-value" id="win-rate">0%</div>
+          <div class="stat-change neutral">sur 0 trades</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Signals -->
+    <section class="signals-section">
+      <h2>🤖 Signaux Gemini AI</h2>
+      <div class="signals-grid" id="signals-container">
+        <div class="signal-card loading">
+          <div class="signal-header">
+            <span class="signal-market">BTC/USDT</span>
+            <span class="signal-badge buy">BUY</span>
+          </div>
+          <div class="signal-confidence">Confiance: 85%</div>
+          <div class="signal-reason">Tendance haussière + Sentiment positif</div>
+          <div class="signal-time">Il y a 2 min</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Positions -->
+    <section class="positions-section">
+      <h2>📊 Positions Ouvertes</h2>
+      <div class="positions-table">
+        <table id="positions-table">
+          <thead>
+            <tr>
+              <th>Marché</th>
+              <th>Type</th>
+              <th>Quantité</th>
+              <th>Prix Entrée</th>
+              <th>Prix Actuel</th>
+              <th>P&L</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="positions-body">
+            <!-- Dynamic -->
+          </tbody>
+        </table>
+        <div class="empty-state" id="positions-empty">
+          <p>Aucune position ouverte</p>
+          <p class="hint">Les positions apparaîtront ici quand William Trading en ouvrira.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Trades -->
+    <section class="trades-section">
+      <h2>📈 Historique des Trades</h2>
+      <div class="trades-list" id="trades-list">
+        <div class="empty-state">
+          <p>Aucun trade effectué</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Market Monitor -->
+    <section class="markets-section">
+      <h2>👀 Marchés Surveillés</h2>
+      <div class="markets-grid" id="markets-container">
+        <!-- Dynamic -->
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>William Trading Agent • OpenClaw • Temps réel avec Gemini AI</p>
+      <p id="last-update">Dernière mise à jour: --</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
