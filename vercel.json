@@ -1,5 +1,10 @@
 {
   "version": 2,
-  "buildCommand": null,
-  "outputDirectory": "."
+  "name": "agent-dashboard",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }

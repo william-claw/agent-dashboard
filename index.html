@@ -3,71 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>William Agents Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="dashboard">
-        <header class="header">
+    <div class="container">
+        <header>
             <h1>🤖 Agent Dashboard</h1>
-            <p class="subtitle">Multi-Agent System Overview</p>
+            <p class="subtitle">Multi-Agent System Status Monitor</p>
         </header>
-
-        <div class="agents-grid">
-            <!-- Trading Agent -->
+        
+        <div class="grid">
+            <!-- William - Active -->
             <div class="agent-card">
-                <div class="status-indicator status-active"></div>
-                <div class="agent-icon">🎲</div>
-                <h2 class="agent-name">William-Trading</h2>
-                <span class="agent-role">Trading & Finance</span>
-                <span class="agent-status status-text-active">🟢 Active</span>
-                <p class="agent-desc">Paper trading on Polymarket, portfolio analysis, investment strategies, and performance tracking.</p>
+                <div class="card-header">
+                    <div class="avatar">👑</div>
+                    <div class="status-indicator active" title="Active"></div>
+                </div>
+                <h2 class="agent-name">William</h2>
+                <p class="agent-role">Agent Principal</p>
+                <div class="agent-desc">Coordinateur et interface utilisateur principal du système multi-agent.</div>
+                <div class="meta">
+                    <span class="tag">Coordination</span>
+                    <span class="tag">Orchestration</span>
+                </div>
             </div>
-
-            <!-- Dev Agent -->
+            
+            <!-- Trading - Active -->
             <div class="agent-card">
-                <div class="status-indicator status-active"></div>
-                <div class="agent-icon">💻</div>
-                <h2 class="agent-name">William-Dev</h2>
-                <span class="agent-role">Development</span>
-                <span class="agent-status status-text-active">🟢 Active</span>
-                <p class="agent-desc">Web development, feature implementation, app building, and code maintenance across all projects.</p>
+                <div class="card-header">
+                    <div class="avatar">🎲</div>
+                    <div class="status-indicator active" title="Active"></div>
+                </div>
+                <h2 class="agent-name">Trading</h2>
+                <p class="agent-role">Agent Spécialiste</p>
+                <div class="agent-desc">Trading, finance et analyse marché. Paper trading Polymarket.</div>
+                <div class="meta">
+                    <span class="tag">Finance</span>
+                    <span class="tag">Portfolio</span>
+                </div>
             </div>
-
-            <!-- Data Agent -->
+            
+            <!-- Dev - Busy (Yellow) -->
             <div class="agent-card">
-                <div class="status-indicator status-active"></div>
-                <div class="agent-icon">📊</div>
-                <h2 class="agent-name">William-Data</h2>
-                <span class="agent-role">Data & Research</span>
-                <span class="agent-status status-text-active">🟢 Active</span>
-                <p class="agent-desc">Web scraping, data analysis, information research, and automated report generation.</p>
+                <div class="card-header">
+                    <div class="avatar">💻</div>
+                    <div class="status-indicator busy" title="Busy"></div>
+                </div>
+                <h2 class="agent-name">Dev</h2>
+                <p class="agent-role">Agent Spécialiste</p>
+                <div class="agent-desc">Développement web, applications et maintenance du code.</div>
+                <div class="meta">
+                    <span class="tag">Code</span>
+                    <span class="tag">Web</span>
+                </div>
             </div>
-
-            <!-- Docs Agent -->
+            
+            <!-- Data - Active -->
             <div class="agent-card">
-                <div class="status-indicator status-idle"></div>
-                <div class="agent-icon">📝</div>
-                <h2 class="agent-name">William-Docs</h2>
-                <span class="agent-role">Documentation</span>
-                <span class="agent-status status-text-idle">🟡 Idle</span>
-                <p class="agent-desc">File organization, MEMORY.md updates, conversation synthesis, and project archiving.</p>
+                <div class="card-header">
+                    <div class="avatar">📊</div>
+                    <div class="status-indicator active" title="Active"></div>
+                </div>
+                <h2 class="agent-name">Data</h2>
+                <p class="agent-role">Agent Spécialiste</p>
+                <div class="agent-desc">Scraping web, analyse de données et recherche d'information.</div>
+                <div class="meta">
+                    <span class="tag">Analytics</span>
+                    <span class="tag">Research</span>
+                </div>
             </div>
         </div>
-
-        <footer class="footer">
-            <p>Last updated: <span id="last-updated"></span></p>
+        
+        <footer>
+            <p>Running on OpenClaw • <span id="timestamp"></span></p>
         </footer>
     </div>
-
+    
     <script>
-        document.getElementById('last-updated').textContent = new Date().toLocaleString('en-US', {
-            dateStyle: 'medium',
-            timeStyle: 'short'
-        });
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
     </script>
 </body>
 </html>
