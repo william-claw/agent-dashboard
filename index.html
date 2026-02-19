@@ -1,13 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🤖 Agent Dashboard</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh; color: #f8fafc; padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 0.5rem;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .squad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .agent-card {
+            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .agent-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+        .agent-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--glow-color, #64748b); box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color);
+        }
+        .agent-card.active { --glow-color: #10b981; }
+        .agent-card.standby { --glow-color: #f59e0b; }
+        .agent-card.busy { --glow-color: #ef4444; }
+        .agent-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .emoji { font-size: 2.5rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .agent-info h2 { font-size: 1.25rem; color: #f8fafc; margin-bottom: 0.25rem; }
+        .agent-id { font-size: 0.8rem; color: #64748b; font-family: monospace; }
+        .description { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;
+            padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500;
+        }
+        .status-badge.active { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-badge.standby { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite; }
+        .status-badge.active .status-dot { background: #10b981; box-shadow: 0 0 10px #10b981; }
+        .status-badge.standby .status-dot { background: #f59e0b; box-shadow: 0 0 10px #f59e0b; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        footer { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #64748b; }
+        .live-dot { display: inline-block; width: 10px; height: 10px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px #10b981; margin-right: 0.5rem; }
+        @media (max-width: 768px) { h1 { font-size: 1.75rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="margin-bottom:1rem;"><span class="live-dot"></span>Live Dashboard</div>
+            <h1>🤖 Agent Dashboard</h1>
+            <p class="subtitle">Multi-Agent Squad Monitor</p>
+        </header>
+        <div class="squad-grid">
+            <div class="agent-card active">
+                <div class="agent-header"><span class="emoji">🎲</span><div class="agent-info"><h2>William-Trading</h2><span class="agent-id">ID: agent:trading</span></div></div>
+                <p class="description">Trading, finance, analyse marché</p>
+                <span class="status-badge active"><span class="status-dot"></span>Active</span>
+            </div>
+            <div class="agent-card active">
+                <div class="agent-header"><span class="emoji">💻</span><div class="agent-info"><h2>William-Dev</h2><span class="agent-id">ID: agent:dev</span></div></div>
+                <p class="description">Développement web, apps, coding</p>
+                <span class="status-badge active"><span class="status-dot"></span>Active</span>
+            </div>
+            <div class="agent-card active">
+                <div class="agent-header"><span class="emoji">📊</span><div class="agent-info"><h2>William-Data</h2><span class="agent-id">ID: agent:data</span></div></div>
+                <p class="description">Scraping, analyse données, recherche</p>
+                <span class="status-badge active"><span class="status-dot"></span>Active</span>
+            </div>
+            <div class="agent-card standby">
+                <div class="agent-header"><span class="emoji">📝</span><div class="agent-info"><h2>William-Docs</h2><span class="agent-id">ID: agent:docs</span></div></div>
+                <p class="description">Organisation, documentation, mémoire</p>
+                <span class="status-badge standby"><span class="status-dot"></span>Standby</span>
+            </div>
+        </div>
+        <footer><p>Made with 🤖 by William Squad</p></footer>
+    </div>
+</body>
 </html>
