@@ -7,7 +7,10 @@
       "avatar": "👑",
       "status": "active",
       "description": "Coordinateur et interface utilisateur principal du système multi-agent.",
-      "tags": ["Coordination", "Orchestration"],
+      "tags": [
+        "Coordination",
+        "Orchestration"
+      ],
       "uptime": "99.9%",
       "lastActivity": "< 1 min"
     },
@@ -16,34 +19,57 @@
       "name": "Dev",
       "role": "Agent Spécialiste",
       "avatar": "💻",
-      "status": "busy",
+      "status": "offline",
       "description": "Développement web, applications et maintenance du code.",
-      "tags": ["Code", "Web"],
-      "uptime": "94.2%",
-      "lastActivity": "~3 hours ago"
+      "tags": [
+        "Code",
+        "Web"
+      ],
+      "uptime": "--",
+      "lastActivity": "inactif"
     },
     {
       "id": "agent:trading",
       "name": "Trading",
       "role": "Agent Spécialiste",
       "avatar": "🎲",
-      "status": "active",
+      "status": "offline",
       "description": "Trading, finance et analyse marché. Paper trading Polymarket.",
-      "tags": ["Finance", "Portfolio"],
-      "uptime": "98.1%",
-      "lastActivity": "< 30 min"
+      "tags": [
+        "Finance",
+        "Portfolio"
+      ],
+      "uptime": "--",
+      "lastActivity": "inactif"
     },
     {
       "id": "agent:data",
       "name": "Data",
       "role": "Agent Spécialiste",
       "avatar": "📊",
-      "status": "active",
+      "status": "offline",
       "description": "Scraping web, analyse de données et recherche d'information.",
-      "tags": ["Analytics", "Research"],
-      "uptime": "97.8%",
-      "lastActivity": "< 1 hour"
+      "tags": [
+        "Analytics",
+        "Research"
+      ],
+      "uptime": "--",
+      "lastActivity": "inactif"
+    },
+    {
+      "id": "agent:docs",
+      "name": "Docs",
+      "role": "Agent Spécialiste",
+      "avatar": "📝",
+      "status": "offline",
+      "description": "Organisation, documentation et mémoire du système.",
+      "tags": [
+        "Documentation",
+        "Memory"
+      ],
+      "uptime": "--",
+      "lastActivity": "inactif"
     }
   ],
-  "timestamp": "2026-02-19T07:15:00Z"
+  "timestamp": "2026-02-19T09:19:50.315Z"
 }
