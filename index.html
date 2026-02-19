@@ -3,87 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Agent Dashboard</title>
+    <title>Agent Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh; color: #f8fafc; padding: 2rem;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
         h1 {
             font-size: 2.5rem;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 0.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .squad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+
+        .subtitle {
+            color: #8892b0;
+            margin-bottom: 50px;
+            font-size: 1rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
         .agent-card {
-            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease;
-            position: relative; overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        .agent-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+
         .agent-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: var(--glow-color, #64748b); box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color);
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
-        .agent-card.active { --glow-color: #10b981; }
-        .agent-card.standby { --glow-color: #f59e0b; }
-        .agent-card.busy { --glow-color: #ef4444; }
-        .agent-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-        .emoji { font-size: 2.5rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        .agent-info h2 { font-size: 1.25rem; color: #f8fafc; margin-bottom: 0.25rem; }
-        .agent-id { font-size: 0.8rem; color: #64748b; font-family: monospace; }
-        .description { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;
-            padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500;
+
+        .agent-card:hover {
+            transform: translateY(-5px);
         }
-        .status-badge.active { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .status-badge.standby { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite; }
-        .status-badge.active .status-dot { background: #10b981; box-shadow: 0 0 10px #10b981; }
-        .status-badge.standby .status-dot { background: #f59e0b; box-shadow: 0 0 10px #f59e0b; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        footer { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #64748b; }
-        .live-dot { display: inline-block; width: 10px; height: 10px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px #10b981; margin-right: 0.5rem; }
-        @media (max-width: 768px) { h1 { font-size: 1.75rem; } }
+
+        .agent-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .agent-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .agent-role {
+            font-size: 0.9rem;
+            color: #8892b0;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Active status - Green */
+        .status-active {
+            box-shadow: 0 0 60px rgba(34, 197, 94, 0.4), inset 0 0 60px rgba(34, 197, 94, 0.1);
+        }
+        .status-active::before {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(21, 128, 61, 0.3));
+        }
+        .status-active .status-dot {
+            background-color: #22c55e;
+            box-shadow: 0 0 20px #22c55e;
+        }
+        .status-active .status-text {
+            color: #22c55e;
+        }
+
+        /* Working status - Orange */
+        .status-working {
+            box-shadow: 0 0 60px rgba(249, 115, 22, 0.4), inset 0 0 60px rgba(249, 115, 22, 0.1);
+        }
+        .status-working::before {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.5), rgba(194, 65, 12, 0.3));
+        }
+        .status-working .status-dot {
+            background-color: #f97316;
+            box-shadow: 0 0 20px #f97316;
+        }
+        .status-working .status-text {
+            color: #f97316;
+        }
+
+        /* Offline status - Red */
+        .status-offline {
+            box-shadow: 0 0 60px rgba(239, 68, 68, 0.4), inset 0 0 60px rgba(239, 68, 68, 0.1);
+        }
+        .status-offline::before {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(153, 27, 27, 0.3));
+        }
+        .status-offline .status-dot {
+            background-color: #ef4444;
+            box-shadow: 0 0 20px #ef4444;
+        }
+        .status-offline .status-text {
+            color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div style="margin-bottom:1rem;"><span class="live-dot"></span>Live Dashboard</div>
-            <h1>🤖 Agent Dashboard</h1>
-            <p class="subtitle">Multi-Agent Squad Monitor</p>
-        </header>
-        <div class="squad-grid">
-            <div class="agent-card active">
-                <div class="agent-header"><span class="emoji">🎲</span><div class="agent-info"><h2>William-Trading</h2><span class="agent-id">ID: agent:trading</span></div></div>
-                <p class="description">Trading, finance, analyse marché</p>
-                <span class="status-badge active"><span class="status-dot"></span>Active</span>
-            </div>
-            <div class="agent-card active">
-                <div class="agent-header"><span class="emoji">💻</span><div class="agent-info"><h2>William-Dev</h2><span class="agent-id">ID: agent:dev</span></div></div>
-                <p class="description">Développement web, apps, coding</p>
-                <span class="status-badge active"><span class="status-dot"></span>Active</span>
-            </div>
-            <div class="agent-card active">
-                <div class="agent-header"><span class="emoji">📊</span><div class="agent-info"><h2>William-Data</h2><span class="agent-id">ID: agent:data</span></div></div>
-                <p class="description">Scraping, analyse données, recherche</p>
-                <span class="status-badge active"><span class="status-dot"></span>Active</span>
-            </div>
-            <div class="agent-card standby">
-                <div class="agent-header"><span class="emoji">📝</span><div class="agent-info"><h2>William-Docs</h2><span class="agent-id">ID: agent:docs</span></div></div>
-                <p class="description">Organisation, documentation, mémoire</p>
-                <span class="status-badge standby"><span class="status-dot"></span>Standby</span>
+    <h1>Agent Dashboard</h1>
+    <p class="subtitle">Multi-Agent System Status Monitor</p>
+
+    <div class="dashboard">
+        <!-- William-Trading -->
+        <div class="agent-card status-active">
+            <div class="agent-icon">🎲</div>
+            <div class="agent-name">William-Trading</div>
+            <div class="agent-role">Trading & Analytics</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Active</span>
             </div>
         </div>
-        <footer><p>Made with 🤖 by William Squad</p></footer>
+
+        <!-- William-Dev -->
+        <div class="agent-card status-active">
+            <div class="agent-icon">💻</div>
+            <div class="agent-name">William-Dev</div>
+            <div class="agent-role">Development & Apps</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="statustext">Active</span>
+            </div>
+        </div>
+
+        <!-- William-Data -->
+        <div class="agent-card status-working">
+            <div class="agent-icon">📊</div>
+            <div class="agent-name">William-Data</div>
+            <div class="agent-role">Data & Research</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Working</span>
+            </div>
+        </div>
+
+        <!-- William-Docs -->
+        <div class="agent-card status-offline">
+            <div class="agent-icon">📝</div>
+            <div class="agent-name">William-Docs</div>
+            <div class="agent-role">Documentation & Memory</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Offline</span>
+            </div>
+        </div>
     </div>
 </body>
 </html>
