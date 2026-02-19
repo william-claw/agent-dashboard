@@ -1,87 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William Agents Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>William Agents Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .last-updated {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .refresh-btn {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: white;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .refresh-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .refresh-btn:active { transform: translateY(0); }
+    .refresh-btn.loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .refresh-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.fresh { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+    .status-dot.stale { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+    .status-dot.offline { background: #ef4444; }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      border: 1px solid #0ea5e9;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .toast.show { opacity: 1; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🤖 Agent Dashboard</h1>
-            <p class="subtitle">Multi-Agent System Status Monitor</p>
-        </header>
-        
-        <div class="grid">
-            <!-- William - Active -->
-            <div class="agent-card">
-                <div class="card-header">
-                    <div class="avatar">👑</div>
-                    <div class="status-indicator active" title="Active"></div>
-                </div>
-                <h2 class="agent-name">William</h2>
-                <p class="agent-role">Agent Principal</p>
-                <div class="agent-desc">Coordinateur et interface utilisateur principal du système multi-agent.</div>
-                <div class="meta">
-                    <span class="tag">Coordination</span>
-                    <span class="tag">Orchestration</span>
-                </div>
-            </div>
-            
-            <!-- Trading - Active -->
-            <div class="agent-card">
-                <div class="card-header">
-                    <div class="avatar">🎲</div>
-                    <div class="status-indicator active" title="Active"></div>
-                </div>
-                <h2 class="agent-name">Trading</h2>
-                <p class="agent-role">Agent Spécialiste</p>
-                <div class="agent-desc">Trading, finance et analyse marché. Paper trading Polymarket.</div>
-                <div class="meta">
-                    <span class="tag">Finance</span>
-                    <span class="tag">Portfolio</span>
-                </div>
-            </div>
-            
-            <!-- Dev - Busy (Yellow) -->
-            <div class="agent-card">
-                <div class="card-header">
-                    <div class="avatar">💻</div>
-                    <div class="status-indicator busy" title="Busy"></div>
-                </div>
-                <h2 class="agent-name">Dev</h2>
-                <p class="agent-role">Agent Spécialiste</p>
-                <div class="agent-desc">Développement web, applications et maintenance du code.</div>
-                <div class="meta">
-                    <span class="tag">Code</span>
-                    <span class="tag">Web</span>
-                </div>
-            </div>
-            
-            <!-- Data - Active -->
-            <div class="agent-card">
-                <div class="card-header">
-                    <div class="avatar">📊</div>
-                    <div class="status-indicator active" title="Active"></div>
-                </div>
-                <h2 class="agent-name">Data</h2>
-                <p class="agent-role">Agent Spécialiste</p>
-                <div class="agent-desc">Scraping web, analyse de données et recherche d'information.</div>
-                <div class="meta">
-                    <span class="tag">Analytics</span>
-                    <span class="tag">Research</span>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>Running on OpenClaw • <span id="timestamp"></span></p>
-        </footer>
+  <div class="container">
+    <header>
+      <h1>🤖 Agent Dashboard</h1>
+      <p class="subtitle">Multi-Agent System Status Monitor</p>
+      <div class="last-updated">
+        <span class="status-dot" id="data-status" title="Data freshness"></span>
+        <span id="timestamp">Chargement...</span>
+        <button class="refresh-btn" id="refresh-btn" onclick="triggerRefresh()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+          Rafraîchir
+        </button>
+      </div>
+    </header>
+    
+    <div class="grid" id="agent-grid">
+      <div style="grid-column: span 2; text-align: center; padding: 40px; color: #64748b;">
+        Chargement des agents...
+      </div>
     </div>
     
-    <script>
-        document.getElementById('timestamp').textContent = new Date().toLocaleString();
-    </script>
+    <footer>
+      <p>Running on OpenClaw • Dashboard accessible partout</p>
+    </footer>
+  </div>
+  
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const DATA_URL = 'agents.json';
+    const WORKFLOW_API = 'https://api.github.com/repos/william-claw/agent-dashboard/actions/workflows/update-agents.yml/dispatches';
+    
+    const statusConfig = {
+      active: { color: '#22c55e', glow: '0 0 12px #22c55e', label: 'Actif' },
+      busy: { color: '#f59e0b', glow: '0 0 12px #f59e0b', label: 'Occupé' },
+      warning: { color: '#f59e0b', glow: '0 0 12px #f59e0b', label: 'Alerte' },
+      offline: { color: '#ef4444', glow: '0 0 12px #ef4444', label: 'Hors ligne' }
+    };
+
+    async function loadData() {
+      try {
+        const response = await fetch(DATA_URL + '?t=' + Date.now());
+        const data = await response.json();
+        renderDashboard(data);
+        return data;
+      } catch (error) {
+        console.error('Failed to load:', error);
+        showToast('Erreur de chargement', 'error');
+      }
+    }
+
+    function renderDashboard(data) {
+      const grid = document.getElementById('agent-grid');
+      const cards = data.agents.map(agent => renderCard(agent)).join('');
+      grid.innerHTML = cards;
+      
+      const updated = new Date(data.timestamp);
+      const age = Date.now() - updated.getTime();
+      const ageMinutes = Math.floor(age / 60000);
+      
+      const statusDot = document.getElementById('data-status');
+      const timestamp = document.getElementById('timestamp');
+      
+      if (ageMinutes < 2) {
+        statusDot.className = 'status-dot fresh';
+        statusDot.title = 'Données fraîches';
+      } else if (ageMinutes < 10) {
+        statusDot.className = 'status-dot stale';
+        statusDot.title = `Données de ${ageMinutes} min`;
+      } else {
+        statusDot.className = 'status-dot offline';
+        statusDot.title = `Données de ${ageMinutes} min`;
+      }
+      
+      timestamp.textContent = `Mis à jour: ${updated.toLocaleString('fr-FR')}`;
+    }
+
+    function renderCard(agent) {
+      const status = statusConfig[agent.status] || statusConfig.offline;
+      
+      return `
+        <div class="agent-card">
+          <div class="card-header">
+            <div class="avatar">${agent.avatar}</div>
+            <div class="status-indicator ${agent.status}" title="${status.label}"
+                 style="background: ${status.color}; box-shadow: ${status.glow};"></div>
+          </div>
+          <h2 class="agent-name">${agent.name}</h2>
+          <p class="agent-role">${agent.role}</p>
+          <div class="agent-desc">${agent.description}</div>
+          <div class="meta">
+            ${agent.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8;">
+            <span>⏱️ ${agent.uptime || '--'}</span>
+            <span>${agent.lastActivity || ''}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    async function triggerRefresh() {
+      const btn = document.getElementById('refresh-btn');
+      btn.classList.add('loading');
+      btn.innerHTML = '🔄 Rafraîchissement...';
+      
+      // Show instructions since we can't directly trigger GitHub Actions without auth
+      showToast('Pour updater instantanément : clique sur le bouton GitHub Actions →');
+      
+      // Open GitHub Actions in new tab with the workflow dispatch button
+      setTimeout(() => {
+        window.open('https://github.com/william-claw/agent-dashboard/actions/workflows/update-agents.yml', '_blank');
+      }, 1500);
+      
+      // Reload data to get latest
+      setTimeout(async () => {
+        await loadData();
+        btn.classList.remove('loading');
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+          Rafraîchir
+        `;
+      }, 500);
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.borderColor = type === 'error' ? '#ef4444' : '#0ea5e9';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    // Initial load
+    loadData();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadData, 30000);
+  </script>
 </body>
 </html>

@@ -1,0 +1,38 @@
+name: Update Agent Status
+
+on:
+  workflow_dispatch:  # Manual trigger via API/button
+  schedule:
+    - cron: '*/5 * * * *'  # Auto-run every 5 minutes
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install OpenClaw CLI
+        run: |
+          npm install -g openclaw
+          
+      - name: Update Agent Data
+        run: node update-agents-ci.js
+        env:
+          OPENCLAW_TOKEN: ${{ secrets.OPENCLAW_TOKEN }}
+          
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add agents.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update agent status [$(date -u +%Y-%m-%d_%H:%M:%S)]"
+          git push

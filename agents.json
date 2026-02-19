@@ -1,0 +1,49 @@
+{
+  "agents": [
+    {
+      "id": "agent:main",
+      "name": "William",
+      "role": "Agent Principal",
+      "avatar": "👑",
+      "status": "active",
+      "description": "Coordinateur et interface utilisateur principal du système multi-agent.",
+      "tags": ["Coordination", "Orchestration"],
+      "uptime": "99.9%",
+      "lastActivity": "< 1 min"
+    },
+    {
+      "id": "agent:dev",
+      "name": "Dev",
+      "role": "Agent Spécialiste",
+      "avatar": "💻",
+      "status": "busy",
+      "description": "Développement web, applications et maintenance du code.",
+      "tags": ["Code", "Web"],
+      "uptime": "94.2%",
+      "lastActivity": "~3 hours ago"
+    },
+    {
+      "id": "agent:trading",
+      "name": "Trading",
+      "role": "Agent Spécialiste",
+      "avatar": "🎲",
+      "status": "active",
+      "description": "Trading, finance et analyse marché. Paper trading Polymarket.",
+      "tags": ["Finance", "Portfolio"],
+      "uptime": "98.1%",
+      "lastActivity": "< 30 min"
+    },
+    {
+      "id": "agent:data",
+      "name": "Data",
+      "role": "Agent Spécialiste",
+      "avatar": "📊",
+      "status": "active",
+      "description": "Scraping web, analyse de données et recherche d'information.",
+      "tags": ["Analytics", "Research"],
+      "uptime": "97.8%",
+      "lastActivity": "< 1 hour"
+    }
+  ],
+  "timestamp": "2026-02-19T07:15:00Z"
+}
